@@ -3,29 +3,25 @@ console.log('loaded!');
 let canvas = document.querySelector('#canvas');
 let squirrel1= document.getElementById('squirrel-div');
 let acornDiv = document.createElement('div');
-let acornsArray = [];
-let heartsArray = [];
-let timer = 60;
+// let acornsArray = [];
+// let heartsArray = [];
+//let timer = 60;
 let player1Score = 0;
 let player2Score = 0;
 let rounds = 0;
 
-document.getElementById('start-round2').addEventListener('click', startRoundTwo);
-function startRoundTwo(e){
-    e.preventDefault();
-    timer = 60;
-    document.getElementById('round-2').style.display = "none";
-}
-
+//START GAME !!!!!
 document.getElementById('start').addEventListener('click', startGame);
 function startGame(e){
-    e.preventDefault();
+    e.preventDefault()
+    document.getElementById('score-board').textContent += "Round 1"
+
+    let acornsArray = [];
+    let heartsArray = [];
     let timer = 60;
+
     document.getElementById('instruction-board').style.display = "none";
-
-let dx = 20;
-let dy = 20;
-
+//GAME COUNTDOWN
 let countDown = setInterval(function() {
     let count = document.getElementById('count-down');
     count.textContent = "";
@@ -33,8 +29,11 @@ let countDown = setInterval(function() {
     timer--;
     stopClock();
 
-}, 50);
+}, 1000);
 
+//UPDATING SQUIRREL X/Y AXIS
+let dx = 40;
+let dy = 20;
 setInterval(function() {
     
     squirrel1.style.left = `${dx}%`;
@@ -54,7 +53,7 @@ setInterval(function() {
     }
    
 }, 50);
-
+//MOVEMENT KEYDOWN LOGIC FOR SQUIRREL
 document.addEventListener('keydown', move);
 
 function move(e){
@@ -83,7 +82,9 @@ function move(e){
             break;
     }
 }
+//POPULATE THE GAME-BOARD WITH RANDOMLY PLACED HEARTS
 let populateHearts = setInterval(function(){
+    //STOP ACTIVATES AT MAX HEARTS
     stopHeartInterval();
     let heartDiv = document.createElement('div');
         heartDiv.classList = "new-heart";
@@ -92,11 +93,12 @@ let populateHearts = setInterval(function(){
         heartsArray.push(heartDiv);
         heartDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(heartDiv);
-//console.log(heartDiv.getBoundingClientRect());
 }, 6200);
 stopHeartInterval();
 
+//POPULATE THE GAME-BOARD WITH RANDOMLY PLACED ACORNS
 let populateAcorns = setInterval(function(){
+    //STOP ACTIVATES AT MAX ACORNS
     stopAcornInterval();
     let acornDiv = document.createElement('div');
 
@@ -106,12 +108,12 @@ let populateAcorns = setInterval(function(){
         acornsArray.push(acornDiv);
         acornDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(acornDiv);
-        console.log(acornsArray);
-       // console.log(acornDiv.getBoundingClientRect());
+        //console.log(acornsArray);
+        console.log(acornDiv.getBoundingClientRect())
 
 },2000)
 
-//If acorn count on map is at max, clear the interval;
+//APPLY MAXIMUM NUM OF HEARTS AND ACORNS ON THE BOARD AT ONE TIME;
 stopAcornInterval();
 
 function randomPlacementTop(){
@@ -121,22 +123,25 @@ function randomPlacementLeft(){
     return Math.floor((Math.random()*100) + 1);
  }
 
+//UPDATE SQUIRREL BOUNDS POSITION
+//IS OVERLAPPED WITH ACORN??????
 setInterval(function(){ 
-    updateSquirrelPosition();
+     
     acornsArray.forEach(acorn => {
-        acorn.getBoundingClientRect();
-        isCollide();
-    if(isCollide() === true){
+        // acorn.getBoundingClientRect();
+        // updateSquirrelPosition();
+       
+    if(isCollide(acorn.getBoundingClientRect(), squirrel1.getBoundingClientRect()) === true){
     console.log('DONT DISPLAY THE ACORN!')
+    acorn.style.display = "none";
     }
- 
 })
-    
 }, 500);
-
- function isCollide() {
-    let rect1 = acornDiv.getBoundingClientRect();
-    let rect2 = squirrel1.getBoundingClientRect();
+//ACORN OVERLAP
+ function isCollide(acorn, squirrel1) {
+    
+    let rect1 = acorn;
+    let rect2 = squirrel1;
 
     let overlap = !(rect1.right < rect2.left || 
         rect1.left > rect2.right || 
@@ -178,5 +183,17 @@ setInterval(function(){
         document.getElementById('round-2').style.visibility = "visible";
     }
 
-
+//START ROUND TWO
+document.getElementById('start-round2').addEventListener('click', startRoundTwo);
+function startRoundTwo(e){
+    e.preventDefault();
+    document.getElementById('score-board').textContent = "";
+    document.getElementById('score-board').textContent += "Round 2"
+    timer = 60;
+    document.getElementById('round-2').style.display = "none";
+}
 //FUNCTION TO DETECT COLLISION
+
+
+//When you start the second round, you want the player, player controls, player 
+//tally, and round to change. Everything else should be left as is. 
