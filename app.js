@@ -8,16 +8,20 @@ let heartsArray = [];
 let timer = 60;
 let player1Score = 0;
 let player2Score = 0;
+let rounds = 0;
 
-
+document.getElementById('start-round2').addEventListener('click', startRoundTwo);
+function startRoundTwo(e){
+    e.preventDefault();
+    timer = 60;
+    document.getElementById('round-2').style.display = "none";
+}
 
 document.getElementById('start').addEventListener('click', startGame);
-
-
 function startGame(e){
     e.preventDefault();
+    let timer = 60;
     document.getElementById('instruction-board').style.display = "none";
-
 
 let dx = 20;
 let dy = 20;
@@ -29,7 +33,7 @@ let countDown = setInterval(function() {
     timer--;
     stopClock();
 
-}, 1000);
+}, 50);
 
 setInterval(function() {
     
@@ -117,7 +121,6 @@ function randomPlacementLeft(){
     return Math.floor((Math.random()*100) + 1);
  }
 
-
 setInterval(function(){ 
     updateSquirrelPosition();
     acornsArray.forEach(acorn => {
@@ -131,7 +134,6 @@ setInterval(function(){
     
 }, 500);
 
-
  function isCollide() {
     let rect1 = acornDiv.getBoundingClientRect();
     let rect2 = squirrel1.getBoundingClientRect();
@@ -143,13 +145,11 @@ setInterval(function(){
 
     return overlap;
  }
-
-    //STOP INTERVALS
-
+    //UPDATE THE SQUIRREL's POSITION
     function updateSquirrelPosition(){
         return squirrel1.getBoundingClientRect();  
     }
- 
+    //STOP INTERVALS
     function stopAcornInterval(){
         if (acornsArray.length >= 4){
             clearInterval(populateAcorns);
@@ -163,9 +163,20 @@ setInterval(function(){
     function stopClock(){
         if (timer < 0){
             clearInterval(countDown);
+            rounds++;
+            determineRound();
         }
+    }
+}
+//COUNT ROUNDS TO INDICATE WHICH INSTRUCTION BOARD COMES NEXT
+    function determineRound(){
+        if (rounds === 1){
+            roundTwo();
+        }   
+    }
+    function roundTwo(){
+        document.getElementById('round-2').style.visibility = "visible";
     }
 
 
-}
 //FUNCTION TO DETECT COLLISION

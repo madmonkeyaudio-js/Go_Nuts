@@ -18,6 +18,18 @@ h2 {
     width: 450px;
     color: white;
 }
+#round-2 {
+    position: absolute;
+    z-index: 2;
+    visibility: hidden; 
+    flex-direction: column;
+    justify-content: center;
+    background-color: green;
+    height: 250px;
+    width: 250px;
+    color: white;
+}
+
 #game-board {
     position: fixed;
     width: 100%;
