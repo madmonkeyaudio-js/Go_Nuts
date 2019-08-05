@@ -6,12 +6,21 @@ let acornDiv = document.createElement('div');
 let acornsArray = [];
 let heartsArray = [];
 let timer = 60;
+let player1Score = 0;
+let player2Score = 0;
+
+
+
+document.getElementById('start').addEventListener('click', startGame);
+
+
+function startGame(e){
+    e.preventDefault();
+    document.getElementById('instruction-board').style.display = "none";
+
 
 let dx = 20;
 let dy = 20;
-
-let ax = 0;
-let ay = 0;
 
 let countDown = setInterval(function() {
     let count = document.getElementById('count-down');
@@ -19,8 +28,7 @@ let countDown = setInterval(function() {
     count.textContent += `${timer}`;
     timer--;
     stopClock();
-   
-    
+
 }, 1000);
 
 setInterval(function() {
@@ -134,15 +142,7 @@ setInterval(function(){
         rect1.top > rect2.bottom)
 
     return overlap;
-
-    // return !(
-    //     ((aRect.top + aRect.height) < (sRect.top)) ||
-    //     (aRect.top > (sRect.top + sRect.height)) ||
-    //     ((aRect.left + aRect.width) < sRect.left) ||
-    //     (aRect.left > (sRect.left + sRect.width))
-    // );
-    }
-
+ }
 
     //STOP INTERVALS
 
@@ -167,5 +167,5 @@ setInterval(function(){
     }
 
 
-
+}
 //FUNCTION TO DETECT COLLISION
