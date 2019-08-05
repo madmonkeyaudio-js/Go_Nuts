@@ -38,6 +38,26 @@ h2 {
     opacity: 1;
     filter: alpha(opacity = 100);
 }
+#round-3 {
+    position: absolute;
+    z-index: 2;
+    visibility: hidden; 
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0.7;
+    filter: alpha(opacity = 70);
+    background-color: green;
+    background: linear-gradient(green, rgb(119, 179, 119));
+    height: 250px;
+    width: 250px;
+    color: white;
+}
+
+#round-3:hover {
+    opacity: 1;
+    filter: alpha(opacity = 100);
+}
+
 
 #game-board {
     position: fixed;

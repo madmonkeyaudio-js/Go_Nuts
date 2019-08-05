@@ -7,8 +7,6 @@ let squirrel2 = document.getElementById('squirrel-div2')
 let acornDiv = document.createElement('div');
 let player1Score = 0;
 let player2Score = 0;
-document.getElementById('player1-score').textContent += `Player 1 = ${player1Score}`;
-document.getElementById('player2-score').textContent += `Player 2 = ${player2Score}`;
 let rounds = 0;
 
 
@@ -19,14 +17,16 @@ function startGame(){
     //document.getElementById('music').play();
    
     if (rounds === 0){
-        squirrel1.style.visibility = "visible";
-        squirrel2.style.visibility = "visible";
+        squirrel1.style.display = "";
+        squirrel2.style.display = "none";
     }else if(rounds === 1){
-        squirrel2.style.visibility = "visible";
-        squirrel1.style.visibility = "hidden";
+        squirrel1.style.display = "none";
+        squirrel2.style.display = "";
     }else {
-        squirrel1.style.visibility = "visible";
-        squirrel2.style.visibility = "visible";
+        squirrel1.style.display = "";
+        setTimeout(function(){
+            squirrel2.style.display = "";
+        }, 60);
     }
     document.getElementById('score-board').textContent += "Round 1"
     
@@ -223,7 +223,9 @@ setInterval(function(){
     function determineRound(){
         if (rounds === 1){
             roundTwo();
-        }   
+        }if (rounds === 2 && player1Score === player2Score){
+            roundThree();
+        }
     }
     function roundTwo(){
         document.getElementById('round-2').style.visibility = "visible";
@@ -236,6 +238,18 @@ setInterval(function(){
                 document.getElementById('round-2').style.display = "none";
                 startGame();
     });
+
+    function roundThree(){
+        document.getElementById('round-3').style.visibility = "visible";
+    }
+    document.getElementById('start-round3').addEventListener('click', function(){
+       
+        document.getElementById('score-board').textContent = "";
+                document.getElementById('score-board').textContent += "Round 3"
+                document.getElementById('round-3').style.display = "none";
+                startGame();
+    });
+
 
 
 //When you start the second round, you want the player, player controls, player 
