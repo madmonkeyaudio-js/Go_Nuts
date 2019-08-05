@@ -1,6 +1,3 @@
-// console.log('loaded!');
-
-
 let canvas = document.querySelector('#canvas');
 let squirrel1= document.getElementById('squirrel-div1');
 let squirrel2 = document.getElementById('squirrel-div2')
