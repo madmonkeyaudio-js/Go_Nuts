@@ -13,7 +13,9 @@ let rounds = 0;
 //START GAME !!!!!
 document.getElementById('start').addEventListener('click', startGame);
 function startGame(){
+    document.getElementById('instruction-board').style.display = "none";
     let timer = 60;
+    
     //document.getElementById('music').play();
    
     if (rounds === 0){
@@ -28,13 +30,10 @@ function startGame(){
             squirrel2.style.display = "";
         }, 60);
     }
-    document.getElementById('score-board').textContent += "Round 1"
     
     let acornsArray = [];
     let heartsArray = [];
     
-
-    document.getElementById('instruction-board').style.display = "none";
 //GAME COUNTDOWN
 let countDown = setInterval(function() {
     let count = document.getElementById('count-down');
@@ -43,7 +42,7 @@ let countDown = setInterval(function() {
     timer--;
     stopClock();
 
-}, 100);
+}, 200);
 
 //UPDATING SQUIRREL X/Y AXIS
 let dx = 40;
@@ -133,7 +132,7 @@ function move(e){
 //POPULATE THE GAME-BOARD WITH RANDOMLY PLACED HEARTS
 let populateHearts = setInterval(function(){
     //STOP ACTIVATES AT MAX HEARTS
-    stopHeartInterval();
+    //stopHeartInterval();
     let heartDiv = document.createElement('div');
         heartDiv.classList = "new-heart";
         heartDiv.style.left = `${randomPlacementLeft()}%`;
@@ -147,7 +146,7 @@ let populateHearts = setInterval(function(){
 //POPULATE THE GAME-BOARD WITH RANDOMLY PLACED ACORNS
 let populateAcorns = setInterval(function(){
     //STOP ACTIVATES AT MAX ACORNS
-    stopAcornInterval();
+    //stopAcornInterval();
     let acornDiv = document.createElement('div');
         acornDiv.classList = "new-acorn";
         acornDiv.style.left = `${randomPlacementLeft()}%`;
@@ -179,11 +178,13 @@ setInterval(function(){
         acorn.style.display = "none";
         //document.getElementById('acorn').play();
         player1Score++;
+        document.getElementById('player1-score').textContent = `Player 1 score = ${player1Score}`;
         
     }if (isCollide(acorn.getBoundingClientRect(), squirrel2.getBoundingClientRect()) === true){
         acorn.style.display = "none";
         //document.getElementById('acorn').play();
         player2Score++;
+        document.getElementById('player2-score').textContent = `Player 2 score = ${player1Score}`;
     }
 })
 }, 200);
@@ -212,10 +213,9 @@ setInterval(function(){
         if (timer < 0){
             clearInterval(countDown);
             rounds++;
-            determineRound();
             stopAcornInterval();
             stopHeartInterval();
-
+            determineRound();
         }
     }
 }
@@ -229,23 +229,20 @@ setInterval(function(){
     }
     function roundTwo(){
         document.getElementById('round-2').style.visibility = "visible";
+        squirrel1.style.display = "none";
     }
 //START ROUND TWO
     document.getElementById('start-round2').addEventListener('click', function(){
-       
-        document.getElementById('score-board').textContent = "";
-                document.getElementById('score-board').textContent += "Round 2"
                 document.getElementById('round-2').style.display = "none";
+               
                 startGame();
     });
 
     function roundThree(){
         document.getElementById('round-3').style.visibility = "visible";
+        squirrel2.style.display = "none";
     }
     document.getElementById('start-round3').addEventListener('click', function(){
-       
-        document.getElementById('score-board').textContent = "";
-                document.getElementById('score-board').textContent += "Round 3"
                 document.getElementById('round-3').style.display = "none";
                 startGame();
     });

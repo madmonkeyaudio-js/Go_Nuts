@@ -80,7 +80,6 @@ h2 {
     background-repeat: no-repeat;
     background-size: 50px;
     position: relative;
-   
 }
 #canvas {
     margin: auto;
@@ -122,6 +121,16 @@ h2 {
     width: 100%;
     height: 150px;
     color: white;
+}
+#player1-score {
+    display: block;
+    height: 50px;
+    width: 50px;
+}
+#player2-score {
+    display: block;
+    height: 50px;
+    width: 50px;
 }
 
 .new-acorn{
