@@ -1,7 +1,15 @@
+
+//Initialize function
+
 let player1Score = "player1";
 let player2Score = "player2";
 let player1Report = 1;
 let player2Report = 1;
+let player1Health = "player1 Health";
+let player2Health = "Player2 Health";
+let player1HealthBar = 1;
+let player2HealthBar = 1;
+
 let canvas = document.querySelector('#canvas');
 let squirrel1= document.getElementById('squirrel-div1');
 let squirrel2 = document.getElementById('squirrel-div2')
@@ -14,6 +22,8 @@ let countDown;
 let populateAcorns;
 let populateHearts;
 let acornId = 0;
+let heartId = 0;
+let lawnMowerId = 0;
 
 //START GAME !!!!!
 document.getElementById('start').addEventListener('click', startGame);
@@ -40,8 +50,10 @@ function startGame(){
     }
     clockCountdown();
     populateMap();
-    overlap(squirrel1, player1Score);
-    overlap(squirrel2, player2Score);
+    overlapAcorn(squirrel1, player1Score);
+    overlapAcorn(squirrel2, player2Score);
+    overlapHeart(squirrel1, player1Health);
+    overlapHeart(squirrel2, player2Health);
  
 }   
 //GAME COUNTDOWN
@@ -146,6 +158,8 @@ function populateMap(){
 populateHearts = setInterval(function(){
    let heartDiv = document.createElement('div');
         heartDiv.classList = "new-heart";
+        heartId++;
+        heartDiv.setAttribute("id", heartId);
         heartDiv.style.left = `${randomPlacementLeft()}%`;
         heartDiv.style.top = `${randomPlacementTop()}%`;
         heartsArray.push(heartDiv);
@@ -167,6 +181,19 @@ populateAcorns = setInterval(function(){
 },2000)
 //APPLY MAXIMUM NUM OF HEARTS AND ACORNS ON THE BOARD AT ONE TIME;
 
+populateLawnMowers = setInterval(function(){
+    let lawnMowerDiv = document.createElement('div');
+          lawnMowerDiv.classList = "new-lawnmower";
+          lawnMowerId++;
+          lawnMowerDiv.setAttribute("id", lawnMowerId);
+          lawnMowerDiv.style.left = `${randomPlacementLeft()}%`;
+          lawnMowerDiv.style.top = `${randomPlacementTop()}%`;
+          lawnMowerArray.push(lawnMowerDiv);
+          lawnMowerDiv.getBoundingClientRect();
+          document.querySelector('#canvas').append(lawnMowerDiv);
+  },2000)
+
+
 function randomPlacementTop(){
    return Math.floor((Math.random()*90) + 1);
 }
@@ -174,7 +201,7 @@ function randomPlacementLeft(){
     return Math.floor((Math.random()*100) + 1);
  }
 }
-function overlap(squirrel, playerTally){
+function overlapAcorn(squirrel, playerTally){
     let overlapVar = setInterval(function(){
         acornsArray.forEach(acorn => {
             if(isCollide(squirrel.getBoundingClientRect(), acorn.getBoundingClientRect())===true){
@@ -190,16 +217,36 @@ function overlap(squirrel, playerTally){
                 }else {
                     document.getElementById('player2-score').textContent = `Player2 score = ${player2Report++}`;
                 }
+            }
+        })
+    }, 100)
+}
+
+function overlapHeart(squirrel, playerTally){
+    let overlapVar = setInterval(function(){
+        heartsArray.forEach(heart => {
+            if(isCollide(squirrel.getBoundingClientRect(), heart.getBoundingClientRect())===true){
+                let index = heartsArray.findIndex(function(obj){
+                    return obj.id === heart.id;
+                })
+                heart.parentNode.removeChild(heart);
+                heartsArray.splice(index, 1);
                
+              
+                if (playerTally === player1Health){
+                    document.getElementById('player1-health').textContent = `Player1 health = ${player1HealthBar++}`;
+                }else {
+                    document.getElementById('player2-health').textContent = `Player2 health = ${player2HealthBar++}`;
+                }
             }
         })
     }, 100)
 }
     //DETERMINE OVERLAP FUNCTION
-    function isCollide(squirrel, acorn) {
+function isCollide(squirrel, item) {
     
     let rect1 = squirrel;
-    let rect2 = acorn;
+    let rect2 = item;
 
     let overlap = !(rect1.right < rect2.left || 
         rect1.left > rect2.right || 
@@ -208,6 +255,7 @@ function overlap(squirrel, playerTally){
 
     return overlap;
  }
+
     //STOP INTERVALS
 function stopClock(){
     if (timer < 0){

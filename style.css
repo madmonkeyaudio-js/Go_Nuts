@@ -128,12 +128,21 @@ h2 {
     height: 50px;
     width: 50px;
 }
+#player1-health {
+    display: block;
+    height: 50px;
+    width: 50px;
+}
 #player2-score {
     display: block;
     height: 50px;
     width: 50px;
 }
-
+#player2-health {
+    display: block;
+    height: 50px;
+    width: 50px;
+}
 .new-acorn{
     position: absolute;
     display: inline-block;
@@ -147,6 +156,15 @@ h2 {
     position: absolute;
     display: inline-block;
     background-image: url('images/heart.png');
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    width: 50px;
+    height: 50px;
+}
+.new-lawnmower {
+    position: absolute;
+    display: inline-block;
+    background-image: url('images/lawnmower1.png');
     background-repeat: no-repeat;
     background-size: 50px 50px;
     width: 50px;
