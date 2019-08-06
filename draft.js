@@ -29,11 +29,12 @@ let lawnMowerId = 0;
 document.getElementById('start').addEventListener('click', startGame);
 
 function startGame(){
-
+    
     acornsArray.length = 0;
     heartsArray.length = 0;
     stopPopulateInterval();
     document.getElementById('instruction-board').style.display = "none";
+    document.getElementById('winter').style.visibility = "visible";
     document.getElementById('music').play();
     if (rounds === 0){
         squirrel1.style.display = "";
@@ -196,7 +197,7 @@ function overlapAcorn(squirrel, playerTally){
                 })
                 acorn.parentNode.removeChild(acorn);
                 acornsArray.splice(index, 1);
-                document.getElementById('acorn').play();
+                document.getElementById('munch').play();
               
                 if (playerTally === player1Score){
                     document.getElementById('player1-score').textContent = `Player1 score = ${player1Report++}`;

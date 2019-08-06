@@ -4,8 +4,8 @@ h1 {
 }
 h2 {
     text-align: center;
-    color: white;
-    text-shadow: 2px 2px black;
+    color: rgb(97, 36, 0);
+    /* text-shadow: 2px 2px rgb(46, 203, 224); */
 }
 #winter{
     visibility: hidden;
@@ -18,10 +18,6 @@ h2 {
     height: 500px;
     display: flex;
     justify-content: center;
-    color: white;
-    font-size: 20px;
-    border: 3px solid orange;
-    
 }
 #instruction-board {
     height: 450px;
@@ -31,6 +27,7 @@ h2 {
     background-repeat: no-repeat;
     background-size: 450px;
     
+    font-size: 20px;
     
 }
 #round-2 {
@@ -94,6 +91,13 @@ h2 {
     background-repeat: no-repeat;
     background-size: 50px;
     position: relative;
+}
+#fence {
+    display: inline-block;
+    height: 20px;
+    width: 100vw;
+    background-image: url('images/fence.png');
+    background-size: 20px;
 }
 #canvas {
     margin: auto;
