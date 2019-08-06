@@ -35,7 +35,7 @@ function startGame(){
     stopPopulateInterval();
     document.getElementById('instruction-board').style.display = "none";
     document.getElementById('winter').style.visibility = "visible";
-    document.getElementById('music').play();
+   // document.getElementById('music').play();
     if (rounds === 0){
         squirrel1.style.display = "";
         squirrel2.style.display = "none";
@@ -160,7 +160,7 @@ populateHearts = setInterval(function(){
         heartDiv.classList = "new-heart";
         heartId++;
         heartDiv.setAttribute("id", heartId);
-        heartDiv.style.left = `${randomPlacementLeft()}%`;
+        heartDiv.style.left = `${randomPlacementLeft()}vw`;
         heartDiv.style.top = `${randomPlacementTop()}%`;
         heartsArray.push(heartDiv);
         heartDiv.getBoundingClientRect();
@@ -174,19 +174,20 @@ populateAcorns = setInterval(function(){
         acornDiv.classList = "new-acorn";
         acornId++;
         acornDiv.setAttribute("id", acornId);
-        acornDiv.style.left = `${randomPlacementLeft()}%`;
+        acornDiv.style.left = `${randomPlacementLeft()}vw`;
         acornDiv.style.top = `${randomPlacementTop()}%`;
         acornsArray.push(acornDiv);
         acornDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(acornDiv);
 },2000)
 
-function randomPlacementTop(){
-   return Math.floor((Math.random()*30) + 0);
-}
 function randomPlacementLeft(){ 
     return Math.floor((Math.random()*80) + 0);
  }
+function randomPlacementTop(){
+   return Math.floor((Math.random()*30) + 0);
+}
+
 }
 function overlapAcorn(squirrel, playerTally){
     let overlapVar = setInterval(function(){
