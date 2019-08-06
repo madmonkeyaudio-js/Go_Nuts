@@ -10,19 +10,26 @@
   <body>
     <h1>Hello World</h1>
     <div id="game-board">
+      <div id="flex-instructions">
       <div id="instruction-board">
         <h2>
           Welcome to Go-Nuts!
           <p>
-            To play, press the start button. Each player will have one minute to
-            collect as many nuts as possible. If the scores are tied, there is a
-            final battle round. Beware of the player with the most health!
+            To play, press the start button. 
+            Each player will have one minute 
+            to collect as many nuts as possible. 
+          </p>
+           <p>
+            If the scores are tied, there is a
+            final battle round. Beware of the 
+            player with the most health!
           </p>
         </h2>
         <br />
 
         <input type="button" id="start" value="start" />
       </div>
+    </div>
       <div id="round-2">
         <p>
           Player2, are you ready?
@@ -39,7 +46,7 @@
       </div>
       <div id="sky-blue">
         <div id="sun"></div>
-        <h2>Winter Is Coming!</h2>
+        <h2 id="winter">Winter Is Coming!</h2>
         <h2 id="count-down"></h2>
       </div>
       <div id="canvas">
@@ -56,8 +63,8 @@
 
     <audio id="music" src="audio/Pop.mp3" volume="0.5"></audio>
     <audio id="acorn" src="audio/acorn.mp3"></audio>
-    <audio></audio>
-    <audio></audio>
+    <audio id="heart" src="audio/heart.mp3"></audio>
+    <audio id="heart-pop" src="audio/heart-pop.mp3"></audio>
     <audio></audio>
     <audio></audio>
 

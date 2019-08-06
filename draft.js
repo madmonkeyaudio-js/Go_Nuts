@@ -34,7 +34,6 @@ function startGame(){
     heartsArray.length = 0;
     stopPopulateInterval();
     document.getElementById('instruction-board').style.display = "none";
-    
     document.getElementById('music').play();
     if (rounds === 0){
         squirrel1.style.display = "";
@@ -74,14 +73,14 @@ let dy = 20;
 let ax = 20;
 let ay = 20;
 
+
 setInterval(function() {
     
     squirrel1.style.left = `${dx}%`;
     squirrel1.style.top =  `${dy}%`;
     squirrel2.style.left = `${ax}%`;
     squirrel2.style.top = `${ay}%`;
-
-
+    
     if (dx < 5){
         dx = 5;
     }
@@ -106,7 +105,7 @@ setInterval(function() {
     if (ay > 80){
         ay = 80;
     }
-   
+
 }, 50);
 //MOVEMENT KEYDOWN LOGIC FOR SQUIRREL
 document.addEventListener('keydown', move);
@@ -165,6 +164,7 @@ populateHearts = setInterval(function(){
         heartsArray.push(heartDiv);
         heartDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(heartDiv);
+        document.getElementById('heart-pop').play();
 }, 6200);
 
 //POPULATE THE GAME-BOARD WITH RANDOMLY PLACED ACORNS
@@ -179,26 +179,12 @@ populateAcorns = setInterval(function(){
         acornDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(acornDiv);
 },2000)
-//APPLY MAXIMUM NUM OF HEARTS AND ACORNS ON THE BOARD AT ONE TIME;
-
-populateLawnMowers = setInterval(function(){
-    let lawnMowerDiv = document.createElement('div');
-          lawnMowerDiv.classList = "new-lawnmower";
-          lawnMowerId++;
-          lawnMowerDiv.setAttribute("id", lawnMowerId);
-          lawnMowerDiv.style.left = `${randomPlacementLeft()}%`;
-          lawnMowerDiv.style.top = `${randomPlacementTop()}%`;
-          lawnMowerArray.push(lawnMowerDiv);
-          lawnMowerDiv.getBoundingClientRect();
-          document.querySelector('#canvas').append(lawnMowerDiv);
-  },2000)
-
 
 function randomPlacementTop(){
-   return Math.floor((Math.random()*90) + 1);
+   return Math.floor((Math.random()*30) + 0);
 }
 function randomPlacementLeft(){ 
-    return Math.floor((Math.random()*100) + 1);
+    return Math.floor((Math.random()*80) + 0);
  }
 }
 function overlapAcorn(squirrel, playerTally){
@@ -231,7 +217,7 @@ function overlapHeart(squirrel, playerTally){
                 })
                 heart.parentNode.removeChild(heart);
                 heartsArray.splice(index, 1);
-               
+               document.getElementById('heart').play();
               
                 if (playerTally === player1Health){
                     document.getElementById('player1-health').textContent = `Player1 health = ${player1HealthBar++}`;
