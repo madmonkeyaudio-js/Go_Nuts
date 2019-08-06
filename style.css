@@ -13,8 +13,9 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: green;
-    background: linear-gradient(rgb(143, 214, 143),rgb(135, 143, 19));
+    background-image: url('images/woodFrame.png');
+    background-size: 450px;
+    background-repeat: no-repeat;
     height: 450px;
     width: 450px;
     color: white;
@@ -114,12 +115,12 @@ h2 {
 }
 
 #score-board {
-    display: block;
+    display: flex;
     background-color: brown;
     position: absolute;
     bottom: 0px;
     width: 100%;
-    height: 150px;
+    height: 200px;
     color: white;
 }
 #player1-score {

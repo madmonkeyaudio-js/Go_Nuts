@@ -1,23 +1,31 @@
-let player1Score = 0;
-let player2Score = 0;
+let player1Score = "player1";
+let player2Score = "player2";
+let player1Report = 1;
+let player2Report = 1;
 let canvas = document.querySelector('#canvas');
 let squirrel1= document.getElementById('squirrel-div1');
 let squirrel2 = document.getElementById('squirrel-div2')
 let acornDiv = document.createElement('div');
-let acornsArray = [];
+let acornsArray= [];
 let heartsArray = [];
 let timer = 60;
 let rounds = 0;
 let countDown;
 let populateAcorns;
 let populateHearts;
+let acornId = 0;
 
 //START GAME !!!!!
 document.getElementById('start').addEventListener('click', startGame);
 
 function startGame(){
+
+    acornsArray.length = 0;
+    heartsArray.length = 0;
+    stopPopulateInterval();
     document.getElementById('instruction-board').style.display = "none";
-    //document.getElementById('music').play();
+    
+    document.getElementById('music').play();
     if (rounds === 0){
         squirrel1.style.display = "";
         squirrel2.style.display = "none";
@@ -32,8 +40,9 @@ function startGame(){
     }
     clockCountdown();
     populateMap();
-    checkOverlap();
-    //stopClock();
+    overlap(squirrel1, player1Score);
+    overlap(squirrel2, player2Score);
+ 
 }   
 //GAME COUNTDOWN
 function clockCountdown(){
@@ -44,7 +53,7 @@ countDown = setInterval(function() {
     timer--;
     stopClock();
 
-}, 700);
+}, 400);
 }
 
 //UPDATING SQUIRREL X/Y AXIS
@@ -148,6 +157,8 @@ populateHearts = setInterval(function(){
 populateAcorns = setInterval(function(){
   let acornDiv = document.createElement('div');
         acornDiv.classList = "new-acorn";
+        acornId++;
+        acornDiv.setAttribute("id", acornId);
         acornDiv.style.left = `${randomPlacementLeft()}%`;
         acornDiv.style.top = `${randomPlacementTop()}%`;
         acornsArray.push(acornDiv);
@@ -163,32 +174,32 @@ function randomPlacementLeft(){
     return Math.floor((Math.random()*100) + 1);
  }
 }
-//UPDATE SQUIRREL BOUNDS POSITION
-//IS OVERLAPPED WITH ACORN??????
-function checkOverlap(){
-setInterval(function(){ 
-    
-    acornsArray.forEach(acorn => {
-       
-    if(isCollide(acorn.getBoundingClientRect(), squirrel1.getBoundingClientRect()) === true){
-        acorn.style.display = "none";
-        //document.getElementById('acorn').play();
-        player1Score++;
-        document.getElementById('player1-score').textContent = `Player 1 score = ${player1Score}`;
-        
-    }if (isCollide(acorn.getBoundingClientRect(), squirrel2.getBoundingClientRect()) === true){
-        acorn.style.display = "none";
-        //document.getElementById('acorn').play();
-        player2Score++;
-        document.getElementById('player2-score').textContent = `Player 2 score = ${player2Score}`;
-    }
-})
-}, 400);
+function overlap(squirrel, playerTally){
+    let overlapVar = setInterval(function(){
+        acornsArray.forEach(acorn => {
+            if(isCollide(squirrel.getBoundingClientRect(), acorn.getBoundingClientRect())===true){
+                let index = acornsArray.findIndex(function(nut){
+                    return nut.id === acorn.id;
+                })
+                acorn.parentNode.removeChild(acorn);
+                acornsArray.splice(index, 1);
+                document.getElementById('acorn').play();
+              
+                if (playerTally === player1Score){
+                    document.getElementById('player1-score').textContent = `Player1 score = ${player1Report++}`;
+                }else {
+                    document.getElementById('player2-score').textContent = `Player2 score = ${player2Report++}`;
+                }
+               
+            }
+        })
+    }, 100)
+}
     //DETERMINE OVERLAP FUNCTION
-    function isCollide(acorn, squirrel) {
+    function isCollide(squirrel, acorn) {
     
-    let rect1 = acorn;
-    let rect2 = squirrel;
+    let rect1 = squirrel;
+    let rect2 = acorn;
 
     let overlap = !(rect1.right < rect2.left || 
         rect1.left > rect2.right || 
@@ -197,9 +208,7 @@ setInterval(function(){
 
     return overlap;
  }
-}
     //STOP INTERVALS
-    
 function stopClock(){
     if (timer < 0){
         clearInterval(countDown);
@@ -229,7 +238,7 @@ function roundTwo(){
 }
 document.getElementById('start-round2').addEventListener('click', function(){
     document.getElementById('round-2').style.display = "none";
-    document.getElementById('music').pause();
+    //document.getElementById('music').pause();
     timer = 60;
     startGame();
 });
@@ -240,7 +249,7 @@ function roundThree(){
     }
 document.getElementById('start-round3').addEventListener('click', function(){
     document.getElementById('round-3').style.display = "none";
-    document.getElementById('music').pause();
+    //document.getElementById('music').pause();
     timer = 60;
     startGame();
     });
