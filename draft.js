@@ -1,21 +1,23 @@
+let player1Score = 0;
+let player2Score = 0;
 let canvas = document.querySelector('#canvas');
 let squirrel1= document.getElementById('squirrel-div1');
 let squirrel2 = document.getElementById('squirrel-div2')
 let acornDiv = document.createElement('div');
-let player1Score = 0;
-let player2Score = 0;
-let rounds = 0;
 let acornsArray = [];
 let heartsArray = [];
+let timer = 60;
+let rounds = 0;
+let countDown;
+let populateAcorns;
+let populateHearts;
 
 //START GAME !!!!!
 document.getElementById('start').addEventListener('click', startGame);
+
 function startGame(){
     document.getElementById('instruction-board').style.display = "none";
-    let timer = 60;
-    
     //document.getElementById('music').play();
-   
     if (rounds === 0){
         squirrel1.style.display = "";
         squirrel2.style.display = "none";
@@ -28,16 +30,22 @@ function startGame(){
             squirrel2.style.display = "";
         }, 60);
     }
-    
+    clockCountdown();
+    populateMap();
+    checkOverlap();
+    //stopClock();
+}   
 //GAME COUNTDOWN
-let countDown = setInterval(function() {
+function clockCountdown(){
+countDown = setInterval(function() {
     let count = document.getElementById('count-down');
     count.textContent = "";
     count.textContent += `${timer}`;
     timer--;
     stopClock();
 
-}, 200);
+}, 700);
+}
 
 //UPDATING SQUIRREL X/Y AXIS
 let dx = 40;
@@ -125,10 +133,9 @@ function move(e){
     }
 }
 //POPULATE THE GAME-BOARD WITH RANDOMLY PLACED HEARTS
-let populateHearts = setInterval(function(){
-    //STOP ACTIVATES AT MAX HEARTS
-    //stopHeartInterval();
-    let heartDiv = document.createElement('div');
+function populateMap(){
+populateHearts = setInterval(function(){
+   let heartDiv = document.createElement('div');
         heartDiv.classList = "new-heart";
         heartDiv.style.left = `${randomPlacementLeft()}%`;
         heartDiv.style.top = `${randomPlacementTop()}%`;
@@ -136,25 +143,18 @@ let populateHearts = setInterval(function(){
         heartDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(heartDiv);
 }, 6200);
-// stopHeartInterval();
 
 //POPULATE THE GAME-BOARD WITH RANDOMLY PLACED ACORNS
-let populateAcorns = setInterval(function(){
-    //STOP ACTIVATES AT MAX ACORNS
-    //stopAcornInterval();
-    let acornDiv = document.createElement('div');
+populateAcorns = setInterval(function(){
+  let acornDiv = document.createElement('div');
         acornDiv.classList = "new-acorn";
         acornDiv.style.left = `${randomPlacementLeft()}%`;
         acornDiv.style.top = `${randomPlacementTop()}%`;
         acornsArray.push(acornDiv);
         acornDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(acornDiv);
-        //console.log(acornDiv.getBoundingClientRect())
-
 },2000)
-
 //APPLY MAXIMUM NUM OF HEARTS AND ACORNS ON THE BOARD AT ONE TIME;
-// stopAcornInterval();
 
 function randomPlacementTop(){
    return Math.floor((Math.random()*90) + 1);
@@ -162,9 +162,10 @@ function randomPlacementTop(){
 function randomPlacementLeft(){ 
     return Math.floor((Math.random()*100) + 1);
  }
-
+}
 //UPDATE SQUIRREL BOUNDS POSITION
 //IS OVERLAPPED WITH ACORN??????
+function checkOverlap(){
 setInterval(function(){ 
     
     acornsArray.forEach(acorn => {
@@ -180,12 +181,9 @@ setInterval(function(){
         //document.getElementById('acorn').play();
         player2Score++;
         document.getElementById('player2-score').textContent = `Player 2 score = ${player2Score}`;
-    
     }
 })
 }, 400);
-
-
     //DETERMINE OVERLAP FUNCTION
     function isCollide(acorn, squirrel) {
     
@@ -199,58 +197,52 @@ setInterval(function(){
 
     return overlap;
  }
-   
+}
     //STOP INTERVALS
-    function stopAcornInterval(){
-            clearInterval(populateAcorns);
+    
+function stopClock(){
+    if (timer < 0){
+        clearInterval(countDown);
+        acornsArray.length = 0;
+        heartsArray.length = 0;
+        rounds++;
+        stopPopulateInterval();
+        determineRound();
     }
-    function stopHeartInterval(){
-            clearInterval(populateHearts);
-    }
-    function stopClock(){
-        if (timer < 0){
-            clearInterval(countDown);
-            acornsArray.length = 0;
-            heartsArray.length = 0;
-            rounds++;
-            stopAcornInterval();
-            stopHeartInterval();
-            // clearScoreInterval();
-            determineRound();
-        }
-    }
-    // function clearScoreInterval(){
-    //     clearInterval(collideInterval);
-    // }
+}
+function stopPopulateInterval(){
+    clearInterval(populateAcorns);
+    clearInterval(populateHearts);
 }
 //COUNT ROUNDS TO INDICATE WHICH INSTRUCTION BOARD COMES NEXT
-    function determineRound(){
-        if (rounds === 1){
-            roundTwo();
-        }if (rounds === 2 && player1Score === player2Score){
-            roundThree();
-        }
+function determineRound(){
+    if (rounds === 1){
+        roundTwo();
+    }if (rounds === 2 && player1Score === player2Score){
+        roundThree();
     }
+}
     //START ROUND TWO
-    function roundTwo(){
-        document.getElementById('round-2').style.visibility = "visible";
-        squirrel1.style.display = "none";
-    }
-
-    document.getElementById('start-round2').addEventListener('click', function(){
-                document.getElementById('round-2').style.display = "none";
-                document.getElementById('music').pause();
-                startGame();
-    });
+function roundTwo(){
+    document.getElementById('round-2').style.visibility = "visible";
+    squirrel1.style.display = "none";
+}
+document.getElementById('start-round2').addEventListener('click', function(){
+    document.getElementById('round-2').style.display = "none";
+    document.getElementById('music').pause();
+    timer = 60;
+    startGame();
+});
     //START ROUND THREE
-    function roundThree(){
-        document.getElementById('round-3').style.visibility = "visible";
-        squirrel2.style.display = "none";
+function roundThree(){
+    document.getElementById('round-3').style.visibility = "visible";
+    squirrel2.style.display = "none";
     }
-    document.getElementById('start-round3').addEventListener('click', function(){
-                document.getElementById('round-3').style.display = "none";
-                document.getElementById('music').pause();
-                startGame();
+document.getElementById('start-round3').addEventListener('click', function(){
+    document.getElementById('round-3').style.display = "none";
+    document.getElementById('music').pause();
+    timer = 60;
+    startGame();
     });
     
 
