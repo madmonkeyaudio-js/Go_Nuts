@@ -133,6 +133,9 @@ p {
     height: 25%;
     color: white;
 }
+#reset {
+    position: relative;
+}
 #player1-score {
     display: block;
     height: 50px;
@@ -155,7 +158,7 @@ p {
 }
 .new-acorn{
     position: absolute;
-    /* display: inline-block; */
+    display: inline-block;
     background-image: url('images/acorn1.png');
     background-repeat: no-repeat;
     background-size: 50px 50px;
@@ -164,7 +167,7 @@ p {
 }
 .new-heart{
     position: absolute;
-    /* display: inline-block; */
+    display: inline-block;
     background-image: url('images/heart.png');
     background-repeat: no-repeat;
     background-size: 50px 50px;

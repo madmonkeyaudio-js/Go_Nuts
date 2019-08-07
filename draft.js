@@ -50,8 +50,7 @@ function startGame(){
     overlapAcorn(squirrel2, player2Score);
     overlapHeart(squirrel1, player1Health);
     overlapHeart(squirrel2, player2Health);
-    overlapSquirrels(squirrel1, squirrel2);
-    // clockCountdown();
+    // overlapSquirrels(squirrel1, squirrel2);
 
 }   
 //GAME COUNTDOWN
@@ -63,7 +62,7 @@ countDown = setInterval(function() {
     timer--;
     stopClock();
 
-}, 400);
+}, 1000);
 }
 //UPDATING SQUIRREL X/Y AXIS
 let dx = 40;
@@ -161,8 +160,8 @@ populateHearts = setInterval(function(){
         heartsArray.push(heartDiv);
         heartDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(heartDiv);
-        //document.getElementById('heart-pop').play();
-}, 6200);
+        document.getElementById('heart-pop').play();
+}, 8200);
 populateAcorns = setInterval(function(){
     let acornDiv = document.createElement('div');
         acornDiv.classList = "new-acorn";
@@ -182,7 +181,6 @@ function randomPlacementTop(){
 }
 
 }
-
 
 //COLLISION FUNCTIONS
 function overlapAcorn(squirrel, playerTally){
@@ -219,17 +217,22 @@ function overlapHeart(squirrel, playerTally){
         })
     }, 100)
 }
-function overlapSquirrels(squirrel1, squirrel2){
-    
-        if(isCollide(squirrel1.getBoundingClientRect(), squirrel2.getBoundingClientRect())===true){
+function overlapSquirrels(player1, player2){
+    let squirrelCollide = setInterval(function(){
+        if(isCollide(player1.getBoundingClientRect(), player2.getBoundingClientRect())===true){
             if (player1HealthBar > player2HealthBar){
-                squirrel2.style.display = "none";
+                player2.style.display = "none";
+                document.getElementById('scream').play();
+                clearInterval(squirrelCollide);
             }else if (player2HealthBar > player1HealthBar){
-                squirrel1.style.display = "none";
+                player1.style.display = "none";
+                document.getElementById('scream').play();
+                clearInterval(squirrelCollide);
             }else {
                 console.log('same');
+            }
         }
-    }
+    }, 1000);    
 }
     //DETERMINE OVERLAP FUNCTION
 function isCollide(squirrel, item) {
@@ -263,6 +266,23 @@ function stopPopulateInterval(){
     clearInterval(populateAcorns);
     clearInterval(populateHearts);
 }
+
+//CLEAR ACORNS AND HEARTS
+function clearAcorns(acorn){
+    let index = acornsArray.findIndex(function(nut){
+        return nut.id === acorn.id;
+    })
+    acorn.parentNode.removeChild(acorn);
+    acornsArray.splice(index, 1);
+}
+function clearHearts(heart){
+    let index = heartsArray.findIndex(function(item){
+        return item.id === heart.id;
+    })
+    heart.parentNode.removeChild(heart);
+    heartsArray.splice(index, 1);
+}
+
 //COUNT ROUNDS TO INDICATE WHICH INSTRUCTION BOARD COMES NEXT
 function determineRound(){
     if (rounds === 1){
@@ -311,6 +331,7 @@ function roundThree(){
     }
     document.getElementById('start-round3').addEventListener('click', function(){
     document.getElementById('round-3').style.display = "none";
+    overlapSquirrels(squirrel1, squirrel2);
     startGame();
     });
     
@@ -324,12 +345,12 @@ function restart(){
     document.getElementById('winter').style.visibility = "hidden";
     document.getElementById('win').style.display = "none";
     rounds = 0;
-    acornsArray.forEach(function(acorn){
-        clearAcorns(acorn);
-    });
-    heartsArray.forEach(function(heart){
-        clearHearts(heart);
-    })
+    // acornsArray.forEach(function(acorn){
+    //     clearAcorns(acorn);
+    // });
+    // heartsArray.forEach(function(heart){
+    //     clearHearts(heart);
+    // })
     determineRound();
 }
 
@@ -357,19 +378,3 @@ function initialize(){
     clockCountdown();
 }
 
-
-//CLEAR ACORNS AND HEARTS
-function clearAcorns(acorn){
-    let index = acornsArray.findIndex(function(nut){
-        return nut.id === acorn.id;
-    })
-    acorn.parentNode.removeChild(acorn);
-    acornsArray.splice(index, 1);
-}
-function clearHearts(heart){
-    let index = heartsArray.findIndex(function(item){
-        return item.id === heart.id;
-    })
-    heart.parentNode.removeChild(heart);
-    heartsArray.splice(index, 1);
-}
