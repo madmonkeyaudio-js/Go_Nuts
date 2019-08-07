@@ -12,26 +12,27 @@ let player2HealthBar = 1;
 
 let canvas = document.querySelector('#canvas');
 let squirrel1= document.getElementById('squirrel-div1');
+squirrel1.style.display = "none";
 let squirrel2 = document.getElementById('squirrel-div2')
-let acornDiv = document.createElement('div');
+squirrel2.style.display = "none";
+
+document.getElementById('win').style.display = "none";
+
 let acornsArray= [];
 let heartsArray = [];
-let timer = 60;
+let timer;
 let rounds = 0;
 let countDown;
 let populateAcorns;
 let populateHearts;
 let acornId = 0;
 let heartId = 0;
-let lawnMowerId = 0;
 
 //START GAME !!!!!
 document.getElementById('start').addEventListener('click', startGame);
 
 function startGame(){
-    
-    acornsArray.length = 0;
-    heartsArray.length = 0;
+    timer = 10;
     stopPopulateInterval();
     document.getElementById('instruction-board').style.display = "none";
     document.getElementById('winter').style.visibility = "visible";
@@ -44,6 +45,7 @@ function startGame(){
         squirrel2.style.display = "";
     }else {
         squirrel1.style.display = "";
+        //SET TIMEOUT TO PREVENT GLITCHING
         setTimeout(function(){
             squirrel2.style.display = "";
         }, 60);
@@ -54,7 +56,7 @@ function startGame(){
     overlapAcorn(squirrel2, player2Score);
     overlapHeart(squirrel1, player1Health);
     overlapHeart(squirrel2, player2Health);
- 
+    overlapSquirrels(squirrel1, squirrel2);
 }   
 //GAME COUNTDOWN
 function clockCountdown(){
@@ -108,7 +110,7 @@ setInterval(function() {
     }
 
 }, 50);
-//MOVEMENT KEYDOWN LOGIC FOR SQUIRREL
+//MOVEMENT KEYDOWN LOGIC FOR SQUIRRELS
 document.addEventListener('keydown', move);
 
 function move(e){
@@ -153,7 +155,7 @@ function move(e){
             break;
     }
 }
-//POPULATE THE GAME-BOARD WITH RANDOMLY PLACED HEARTS
+//POPULATE THE GAME-BOARD WITH RANDOMLY PLACED ITEMS
 function populateMap(){
 populateHearts = setInterval(function(){
    let heartDiv = document.createElement('div');
@@ -165,12 +167,10 @@ populateHearts = setInterval(function(){
         heartsArray.push(heartDiv);
         heartDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(heartDiv);
-        document.getElementById('heart-pop').play();
+        //document.getElementById('heart-pop').play();
 }, 6200);
-
-//POPULATE THE GAME-BOARD WITH RANDOMLY PLACED ACORNS
 populateAcorns = setInterval(function(){
-  let acornDiv = document.createElement('div');
+    let acornDiv = document.createElement('div');
         acornDiv.classList = "new-acorn";
         acornId++;
         acornDiv.setAttribute("id", acornId);
@@ -180,7 +180,6 @@ populateAcorns = setInterval(function(){
         acornDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(acornDiv);
 },2000)
-
 function randomPlacementLeft(){ 
     return Math.floor((Math.random()*80) + 0);
  }
@@ -189,6 +188,7 @@ function randomPlacementTop(){
 }
 
 }
+//COLLISION FUNCTIONS
 function overlapAcorn(squirrel, playerTally){
     let overlapVar = setInterval(function(){
         acornsArray.forEach(acorn => {
@@ -198,7 +198,7 @@ function overlapAcorn(squirrel, playerTally){
                 })
                 acorn.parentNode.removeChild(acorn);
                 acornsArray.splice(index, 1);
-                document.getElementById('munch').play();
+                //document.getElementById('munch').play();
               
                 if (playerTally === player1Score){
                     document.getElementById('player1-score').textContent = `Player1 score = ${player1Report++}`;
@@ -209,7 +209,6 @@ function overlapAcorn(squirrel, playerTally){
         })
     }, 100)
 }
-
 function overlapHeart(squirrel, playerTally){
     let overlapVar = setInterval(function(){
         heartsArray.forEach(heart => {
@@ -219,16 +218,31 @@ function overlapHeart(squirrel, playerTally){
                 })
                 heart.parentNode.removeChild(heart);
                 heartsArray.splice(index, 1);
-               document.getElementById('heart').play();
+               //document.getElementById('heart').play();
+               
               
                 if (playerTally === player1Health){
-                    document.getElementById('player1-health').textContent = `Player1 health = ${player1HealthBar++}`;
+                    player1HealthBar++
+                    document.getElementById('player1-health').textContent = `Player1 health = ${player1HealthBar}`;
                 }else {
-                    document.getElementById('player2-health').textContent = `Player2 health = ${player2HealthBar++}`;
+                    player2HealthBar++
+                    document.getElementById('player2-health').textContent = `Player2 health = ${player2HealthBar}`;
                 }
             }
         })
     }, 100)
+}
+function overlapSquirrels(squirrel1, squirrel2){
+    
+        if(isCollide(squirrel1.getBoundingClientRect(), squirrel2.getBoundingClientRect())===true){
+            if (player1Healthbar > player2Healthbar){
+                squirrel2.style.display = "none";
+            }else if (player2Healthbar > player1Healthbar){
+                squirrel1.style.display = "none";
+            }else {
+                console.log('same');
+        }
+    }
 }
     //DETERMINE OVERLAP FUNCTION
 function isCollide(squirrel, item) {
@@ -243,13 +257,10 @@ function isCollide(squirrel, item) {
 
     return overlap;
  }
-
     //STOP INTERVALS
 function stopClock(){
     if (timer < 0){
         clearInterval(countDown);
-        acornsArray.length = 0;
-        heartsArray.length = 0;
         rounds++;
         stopPopulateInterval();
         determineRound();
@@ -263,8 +274,20 @@ function stopPopulateInterval(){
 function determineRound(){
     if (rounds === 1){
         roundTwo();
-    }if (rounds === 2 && player1Score === player2Score){
-        roundThree();
+    }else if (rounds === 2){
+        if(player1Report > player2Report){
+            console.log('Player1 wins!');
+            document.getElementById('win').style.display = "";
+            document.getElementById('win').textContent = "Player 1 Wins!";
+        }else if(player1Report < player2Report){
+            console.log('Player2 wins!');
+            document.getElementById('win').style.display = "";
+            document.getElementById('win').textContent = "Player 2 Wins!";
+        }else {
+            roundThree();
+        }
+    }else {
+        console.log('tie breaker!');
     }
 }
     //START ROUND TWO
@@ -274,10 +297,8 @@ function roundTwo(){
 }
 document.getElementById('start-round2').addEventListener('click', function(){
     document.getElementById('round-2').style.display = "none";
-    //document.getElementById('music').pause();
-    timer = 60;
     startGame();
-});
+  });
     //START ROUND THREE
 function roundThree(){
     document.getElementById('round-3').style.visibility = "visible";
@@ -285,8 +306,6 @@ function roundThree(){
     }
 document.getElementById('start-round3').addEventListener('click', function(){
     document.getElementById('round-3').style.display = "none";
-    //document.getElementById('music').pause();
-    timer = 60;
     startGame();
     });
     

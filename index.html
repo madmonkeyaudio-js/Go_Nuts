@@ -4,45 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Moving an Object</title>
+    <title>Go-Nuts</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <h1>Hello World</h1>
     <div id="game-board">
       <div id="flex-instructions">
-      <div id="instruction-board">
-        <h2>
-          Welcome to Go-Nuts!
-          <p>
-            To play, press the start button. 
-            Each player will have one minute 
-            to collect as many nuts as possible. 
-          </p>
-           <p>
-            If the scores are tied, there is a
-            final battle round. Beware of the 
-            player with the most health!
-          </p>
-        </h2>
-        <br />
+        <div id="instruction-board">
+          <h2>
+            Welcome to Go-Nuts!
+            <p>
+              To play, press the start button. Each player will have one minute
+              to collect as many nuts as possible.
+            </p>
+            <p>
+              If the scores are tied, there is a final battle round. Beware of
+              the player with the most health!
+            </p>
+          </h2>
+          <br />
 
-        <input type="button" id="start" value="start" />
-      </div>
-    </div>
-      <div id="round-2">
-        <p>
-          Player2, are you ready?
-        </p>
-        <br />
-        <input type="button" id="start-round2" value="Ready!" />
-      </div>
-      <div id="round-3">
-        <p>
-          Players tie breaker!
-        </p>
-        <br />
-        <input type="button" id="start-round3" value="Ready!" />
+          <input type="button" id="start" value="start" />
+        </div>
+
+        <div id="rounds">
+          <div id="round-2">
+            <p>
+              Player2, are you ready?
+            </p>
+            <br />
+            <input type="button" id="start-round2" value="Ready!" />
+          </div>
+          <div id="round-3">
+            <p>
+              Players tie breaker!
+            </p>
+            <br />
+            <input type="button" id="start-round3" value="Ready!" />
+          </div>
+        </div>
+        <div id="win">
+          <input type="button" id="reset" value="Restart" />
+        </div>
       </div>
       <div id="sky-blue">
         <div id="sun"></div>
@@ -67,7 +71,6 @@
     <audio id="heart" src="audio/heart.mp3"></audio>
     <audio id="heart-pop" src="audio/heart-pop.mp3"></audio>
     <audio id="munch" src="audio/munching1.mp3"></audio>
-    <audio></audio>
 
     <script src="draft.js"></script>
   </body>
