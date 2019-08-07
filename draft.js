@@ -1,41 +1,39 @@
 
 //Initialize function
 
-let player1Score = "player1";
-let player2Score = "player2";
+let player1Score;
+let player2Score;
 let player1Report = 1;
 let player2Report = 1;
-let player1Health = "player1 Health";
-let player2Health = "Player2 Health";
+let player1Health;
+let player2Health;
 let player1HealthBar = 1;
 let player2HealthBar = 1;
-
-let canvas = document.querySelector('#canvas');
+let canvas;
+document.getElementById('win').style.display = "none";
 let squirrel1= document.getElementById('squirrel-div1');
 squirrel1.style.display = "none";
-let squirrel2 = document.getElementById('squirrel-div2')
+let squirrel2 = document.getElementById('squirrel-div2');
 squirrel2.style.display = "none";
-
-document.getElementById('win').style.display = "none";
-
-let acornsArray= [];
-let heartsArray = [];
+let acornsArray;
+let heartsArray;
 let timer;
 let rounds = 0;
 let countDown;
+let acornId;
+let heartId;
 let populateAcorns;
 let populateHearts;
-let acornId = 0;
-let heartId = 0;
+
+document.getElementById('reset').addEventListener('click', restart);
 
 //START GAME !!!!!
 document.getElementById('start').addEventListener('click', startGame);
 
+stopClock();
 function startGame(){
-    timer = 10;
-    stopPopulateInterval();
-    document.getElementById('instruction-board').style.display = "none";
-    document.getElementById('winter').style.visibility = "visible";
+    initialize();
+    
    // document.getElementById('music').play();
     if (rounds === 0){
         squirrel1.style.display = "";
@@ -50,13 +48,15 @@ function startGame(){
             squirrel2.style.display = "";
         }, 60);
     }
-    clockCountdown();
+   
     populateMap();
     overlapAcorn(squirrel1, player1Score);
     overlapAcorn(squirrel2, player2Score);
     overlapHeart(squirrel1, player1Health);
     overlapHeart(squirrel2, player2Health);
     overlapSquirrels(squirrel1, squirrel2);
+    clockCountdown();
+
 }   
 //GAME COUNTDOWN
 function clockCountdown(){
@@ -179,7 +179,7 @@ populateAcorns = setInterval(function(){
         acornsArray.push(acornDiv);
         acornDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(acornDiv);
-},2000)
+},3000)
 function randomPlacementLeft(){ 
     return Math.floor((Math.random()*80) + 0);
  }
@@ -276,13 +276,11 @@ function determineRound(){
         roundTwo();
     }else if (rounds === 2){
         if(player1Report > player2Report){
-            console.log('Player1 wins!');
             document.getElementById('win').style.display = "";
-            document.getElementById('win').textContent = "Player 1 Wins!";
+            document.getElementById('win').textContent += "Player 1 Wins!";
         }else if(player1Report < player2Report){
-            console.log('Player2 wins!');
             document.getElementById('win').style.display = "";
-            document.getElementById('win').textContent = "Player 2 Wins!";
+            document.getElementById('win').textContent += "Player 2 Wins!";
         }else {
             roundThree();
         }
@@ -297,6 +295,7 @@ function roundTwo(){
 }
 document.getElementById('start-round2').addEventListener('click', function(){
     document.getElementById('round-2').style.display = "none";
+    
     startGame();
   });
     //START ROUND THREE
@@ -310,6 +309,41 @@ document.getElementById('start-round3').addEventListener('click', function(){
     });
     
 
+function restart(){
+    document.getElementById('instruction-board').style.display = "";
+    clearInterval(countDown);
+    stopPopulateInterval();
+    document.getElementById('round-2').style.display = "none";
+    document.getElementById('round-3').style.display = "none";
+    document.getElementById('winter').style.visibility = "hidden";
+    document.getElementById('win').style.display = "none";
+    rounds = 0;
+    player1Report = 1;
+    player2Report = 1;
+    player1HealthBar = 1;
+    player2HealthBar = 1;
+}
 
-
+function initialize(){
+    clearInterval(countDown);
+    stopPopulateInterval();
+    
+    player1Score = "player1";
+    player2Score = "player2";
+    player1Health = "player1 Health";
+    player2Health = "Player2 Health";
+    canvas = document.querySelector('#canvas');
+    squirrel1= document.getElementById('squirrel-div1');
+    squirrel1.style.display = "none";
+    squirrel2 = document.getElementById('squirrel-div2')
+    squirrel2.style.display = "none";
+    document.getElementById('instruction-board').style.display = "none";
+    document.getElementById('winter').style.visibility = "visible";
+    acornsArray = [];
+    heartsArray = [];
+    timer = 20;
+    countDown;
+    acornId = 0;
+    heartId = 0;
+}
 
