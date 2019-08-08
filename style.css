@@ -49,13 +49,27 @@ p {
     background-repeat: no-repeat;
     border-radius: 10px; 
 }
+#start-round2 {
+    height: 45px;
+    width: 100%;
+    background-color: purple;
+    border-radius: 5px;
+}
 #round-3 {
     visibility: hidden; 
-    background-image: url('images/acorns.jpg');
+    background-image: url('images/acorn1.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 10px;
 }
+#start-round3 {
+    height: 45px;
+    width: 100%;
+    background-color: purple;
+    border-radius: 5px;
+
+}
+
 #win {
     position: absolute;
     z-index: 1;
@@ -126,15 +140,14 @@ p {
 }
 #score-board {
     display: flex;
+    justify-content: space-around;
     background-color: brown;
     position: absolute;
     bottom: 0px;
     width: 100%;
     height: 25%;
     color: white;
-}
-#reset {
-    position: relative;
+    border: 3px solid orange;
 }
 #player1-score {
     display: block;

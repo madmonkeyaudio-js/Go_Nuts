@@ -12,6 +12,8 @@ let squirrel1= document.getElementById('squirrel-div1');
 squirrel1.style.display = "none";
 let squirrel2 = document.getElementById('squirrel-div2');
 squirrel2.style.display = "none";
+document.getElementById('player1-health').textContent = "";
+document.getElementById('player2-health').textContent = "";
 let acornsArray;
 let heartsArray;
 let timer;
@@ -21,6 +23,7 @@ let acornId;
 let heartId;
 let populateAcorns;
 let populateHearts;
+let count;
 
 document.getElementById('reset').addEventListener('click', restart);
 
@@ -31,7 +34,7 @@ stopClock();
 function startGame(){
     initialize();
     
-   document.getElementById('music').play();
+   //document.getElementById('music').play();
     if (rounds === 0){
         squirrel1.style.display = "";
         squirrel2.style.display = "none";
@@ -50,13 +53,11 @@ function startGame(){
     overlapAcorn(squirrel2, player2Score);
     overlapHeart(squirrel1, player1Health);
     overlapHeart(squirrel2, player2Health);
-    // overlapSquirrels(squirrel1, squirrel2);
-
 }   
 //GAME COUNTDOWN
 function clockCountdown(){
 countDown = setInterval(function() {
-    let count = document.getElementById('count-down');
+    count = document.getElementById('count-down');
     count.textContent = "";
     count.textContent += `${timer}`;
     timer--;
@@ -160,7 +161,8 @@ populateHearts = setInterval(function(){
         heartsArray.push(heartDiv);
         heartDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(heartDiv);
-        document.getElementById('heart-pop').play();
+        document.getElementById('heart-pop').volume = 0.7;
+       // document.getElementById('heart-pop').play();
 }, 8200);
 populateAcorns = setInterval(function(){
     let acornDiv = document.createElement('div');
@@ -179,16 +181,15 @@ function randomPlacementLeft(){
 function randomPlacementTop(){
    return Math.floor((Math.random()*30) + 0);
 }
-
 }
-
 //COLLISION FUNCTIONS
 function overlapAcorn(squirrel, playerTally){
     let overlapVar = setInterval(function(){
         acornsArray.forEach(acorn => {
             if(isCollide(squirrel.getBoundingClientRect(), acorn.getBoundingClientRect())===true){
                 clearAcorns(acorn);
-               document.getElementById('munch').play();
+                document.getElementById('munch').volume = 0.6;
+                //document.getElementById('munch').play();
               
                 if (playerTally === player1Score){
                     document.getElementById('player1-score').textContent = `Player1 score = ${player1Report++}`;
@@ -197,14 +198,15 @@ function overlapAcorn(squirrel, playerTally){
                 }
             }
         })
-    }, 100)
+    }, 300)
 }
 function overlapHeart(squirrel, playerTally){
     let overlapVar = setInterval(function(){
         heartsArray.forEach(heart => {
             if(isCollide(squirrel.getBoundingClientRect(), heart.getBoundingClientRect())===true){
               clearHearts(heart);
-               document.getElementById('heart').play();
+               document.getElementById('heart').volume = 0.6;
+               //document.getElementById('heart').play();
                
                 if (playerTally === player1Health){
                     player1HealthBar++
@@ -215,7 +217,7 @@ function overlapHeart(squirrel, playerTally){
                 }
             }
         })
-    }, 100)
+    }, 300)
 }
 function overlapSquirrels(player1, player2){
     let squirrelCollide = setInterval(function(){
@@ -232,7 +234,7 @@ function overlapSquirrels(player1, player2){
                 console.log('same');
             }
         }
-    }, 1000);    
+    }, 50);    
 }
     //DETERMINE OVERLAP FUNCTION
 function isCollide(squirrel, item) {
@@ -266,7 +268,6 @@ function stopPopulateInterval(){
     clearInterval(populateAcorns);
     clearInterval(populateHearts);
 }
-
 //CLEAR ACORNS AND HEARTS
 function clearAcorns(acorn){
     let index = acornsArray.findIndex(function(nut){
@@ -282,13 +283,9 @@ function clearHearts(heart){
     heart.parentNode.removeChild(heart);
     heartsArray.splice(index, 1);
 }
-
 //COUNT ROUNDS TO INDICATE WHICH INSTRUCTION BOARD COMES NEXT
 function determineRound(){
     if (rounds === 1){
-        
-      
-        console.log(acornsArray);
         roundTwo();
     }else if (rounds === 2){
         if(player1Report > player2Report){
@@ -333,27 +330,21 @@ function roundThree(){
     document.getElementById('round-3').style.display = "none";
     overlapSquirrels(squirrel1, squirrel2);
     startGame();
-    });
-    
+    });   
+
+    //RESTART FUNCTION
 function restart(){
     
     document.getElementById('instruction-board').style.display = "";
     clearInterval(countDown);
     stopPopulateInterval();
-    document.getElementById('round-2').style.visibility = "hidden";
-    document.getElementById('round-3').style.visibility = "hidden";
-    document.getElementById('winter').style.visibility = "hidden";
-    document.getElementById('win').style.display = "none";
+    clearText();
     rounds = 0;
-    // acornsArray.forEach(function(acorn){
-    //     clearAcorns(acorn);
-    // });
-    // heartsArray.forEach(function(heart){
-    //     clearHearts(heart);
-    // })
-    determineRound();
+    player1HealthBar = 0;
+    player2HealthBar = 0;
+    player1Report = 1;
+    player2Report = 1;
 }
-
 function initialize(){
     clearInterval(countDown);
     stopPopulateInterval();
@@ -370,7 +361,7 @@ function initialize(){
     document.getElementById('winter').style.visibility = "visible";
     acornsArray = [];
     heartsArray = [];
-    timer = 20;
+    timer = 10;
     countDown;
     acornId = 0;
     heartId = 0;
@@ -378,3 +369,13 @@ function initialize(){
     clockCountdown();
 }
 
+function clearText(){
+    document.getElementById('player1-health').textContent = "";
+    document.getElementById('player2-health').textContent = "";
+    document.getElementById('player1-score').textContent = "";
+    document.getElementById('player2-score').textContent = "";
+    document.getElementById('round-2').style.visibility = "hidden";
+    document.getElementById('round-3').style.visibility = "hidden";
+    document.getElementById('winter').style.visibility = "hidden";
+    document.getElementById('win').style.display = "none";
+}
