@@ -6,7 +6,7 @@ Welcome to Go-Nuts!
 <h2>
             Welcome to Go-Nuts!
             <p>
-              To play, press the start button. Each player will have one minute
+              To play, press the start button. Each player will have twenty seconds
               to collect as many nuts as possible.
             </p>
             <p>
