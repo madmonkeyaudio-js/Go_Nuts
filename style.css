@@ -4,8 +4,8 @@ h1 {
 }
 h2 {
     text-align: center;
-    color: white;
-    text-shadow: 3px 5px 5px rgb(21, 38, 41);
+    color: rgb(233, 235, 162);
+    text-shadow: 5px 5px 5px rgb(0, 0, 0);
 }
 p {
     padding: 3px;
@@ -21,7 +21,7 @@ p {
     height: 500px;
     display: flex;
     justify-content: center;
-    color: white;
+    color: rgb(216, 208, 208);
     text-align: center;
     font-weight: bold;
     font-size: 32px;
@@ -99,7 +99,7 @@ p {
     height: 25%;
     width: 100%;
     background-color: skyblue;
-    background-image: linear-gradient(rgb(0, 162, 255), rgb(240, 241, 182));
+    background-image: linear-gradient(rgb(0, 162, 255), rgb(177, 179, 103));
     padding: 20px;
 }
 #sun {
