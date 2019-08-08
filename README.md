@@ -17,15 +17,19 @@ Welcome to Go-Nuts!
 
         Controls: 
 
-        Player 1: Up, Down, Left, Right Arrows for. 
+        Player 1: Up, Down, Left, Right Arrows. 
 
         Player 2: W, S, A, D. 
 
         Known bugs: 
         
-        1. At the end of each round, for each item type remaining on the map, only the one that appeared last will disappear. The others become inaccessible. 
+        1. At the end of each round/reset, for each item type 
+        remaining on the map, only the one that appeared last 
+        will disappear. The others become inaccessible. 
 
-        2. The reset button works as long as there hasn't already been a win condition. Otherwise the game runs through round 1 and then quits.
+        2. The reset button works as long as there hasn't already 
+        been a win condition. Otherwise the game runs through round 1 
+        and then quits.
 
 
 
