@@ -35,6 +35,15 @@ p {
     background-size: 450px;
     font-size: 20px; 
 }
+#start {
+    height: 25px;
+    width: 60px;
+    text-align: center;
+    background-color: purple;
+    border-radius: 5px;
+    margin: 0px auto;
+    padding: 5px;
+}
 #rounds {
     position: absolute;
     z-index: 1;
@@ -186,4 +195,11 @@ p {
     background-size: 50px 50px;
     width: 50px;
     height: 50px;
+}
+#reset {
+    height: 25px;
+    width: 60px;
+    text-align: center;
+    background-color: rgb(138, 4, 87);
+    border-radius: 5px;
 }

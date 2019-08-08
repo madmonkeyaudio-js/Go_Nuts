@@ -34,7 +34,8 @@ stopClock();
 function startGame(){
     initialize();
     
-   //document.getElementById('music').play();
+    
+   document.getElementById('music').play();
     if (rounds === 0){
         squirrel1.style.display = "";
         squirrel2.style.display = "none";
@@ -162,7 +163,7 @@ populateHearts = setInterval(function(){
         heartDiv.getBoundingClientRect();
         document.querySelector('#canvas').append(heartDiv);
         document.getElementById('heart-pop').volume = 0.7;
-       // document.getElementById('heart-pop').play();
+        document.getElementById('heart-pop').play();
 }, 8200);
 populateAcorns = setInterval(function(){
     let acornDiv = document.createElement('div');
@@ -189,7 +190,7 @@ function overlapAcorn(squirrel, playerTally){
             if(isCollide(squirrel.getBoundingClientRect(), acorn.getBoundingClientRect())===true){
                 clearAcorns(acorn);
                 document.getElementById('munch').volume = 0.6;
-                //document.getElementById('munch').play();
+                document.getElementById('munch').play();
               
                 if (playerTally === player1Score){
                     document.getElementById('player1-score').textContent = `Player1 score = ${player1Report++}`;
@@ -206,7 +207,7 @@ function overlapHeart(squirrel, playerTally){
             if(isCollide(squirrel.getBoundingClientRect(), heart.getBoundingClientRect())===true){
               clearHearts(heart);
                document.getElementById('heart').volume = 0.6;
-               //document.getElementById('heart').play();
+               document.getElementById('heart').play();
                
                 if (playerTally === player1Health){
                     player1HealthBar++
@@ -226,10 +227,12 @@ function overlapSquirrels(player1, player2){
                 player2.style.display = "none";
                 document.getElementById('scream').play();
                 clearInterval(squirrelCollide);
+                
             }else if (player2HealthBar > player1HealthBar){
                 player1.style.display = "none";
                 document.getElementById('scream').play();
                 clearInterval(squirrelCollide);
+               
             }else {
                 console.log('same');
             }
@@ -344,6 +347,10 @@ function restart(){
     player2HealthBar = 0;
     player1Report = 1;
     player2Report = 1;
+    console.log(acornsArray);
+    acornsArray.forEach(acorn => {
+        clearAcorns(acorn);
+    })
 }
 function initialize(){
     clearInterval(countDown);
@@ -361,7 +368,7 @@ function initialize(){
     document.getElementById('winter').style.visibility = "visible";
     acornsArray = [];
     heartsArray = [];
-    timer = 10;
+    timer = 20;
     countDown;
     acornId = 0;
     heartId = 0;
